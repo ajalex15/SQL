@@ -1,0 +1,40 @@
+--Create a music store database
+
+CREATE TABLE store (id integer primary key, name text, price integer, color text, quantity_sold integer);
+
+INSERT INTO store VALUES
+(1, "Fender Acoustic Guitar", 149, "red", 3),
+(2, "Gibson Acoustic Guitar", 139, "brown", 2),
+(3, "Trumpet", 349, "silver", 4),
+(4, "Trumpet", 369, "gold", 5),
+(5, "Ukulele", 29, "red", 6),
+(6, "Ukulele", 29, "orange", 2),
+(7, "Ukulele", 29, "yellow", 3),
+(8, "Ukulele", 29, "green", 7),
+(9, "Ukulele", 29, "blue", 5),
+(10, "Ukulele", 29, "indigo", 4),
+(11, "Ukulele", 29, "purple", 9),
+(12, "Mandolin", 359, "brown", 4),
+(13, "Electric Bass", 199, "stripes", 5),
+(14, "Les Paul Electric Guitar", 449, "sunburst", 4),
+(15, "Keyboard", 109, "black", 7);
+
+--display the database ordered by the quantity sold
+SELECT * FROM store
+ORDER BY quantity_sold DESC;
+
+--what is the total revenue of the items sold
+SELECT SUM(price*quantity_sold) as total_revenue FROM store;
+
+--what is the total number of ukuleles sold?
+SELECT SUM(quantity_sold) as ukuleles_sold FROM store
+WHERE name LIKE "%Ukulele%";
+
+--what are the 5 most popular items?
+SELECT name, color, quantity_sold FROM store
+ORDER BY quantity_sold DESC
+LIMIT 5;
+
+--what is the average price of the guitars in the music store?
+SELECT AVG(price) FROM store
+WHERE name LIKE "%Guitar%"
