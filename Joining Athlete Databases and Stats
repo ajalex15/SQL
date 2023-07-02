@@ -1,0 +1,44 @@
+##Create a table about famous people and some data about them
+
+CREATE TABLE athletes (id integer primary key, name TEXT, team TEXT, town TEXT, years_played INTEGER, rings INTEGER);
+
+Insert INTO Athletes ( name, team, town, years_played, rings) VALUES ('Joe Montana', '49ers', 'San Francisco', '14', '4');
+Insert INTO Athletes ( name, team, town, years_played, rings) VALUES ('Jerry Rice', '49ers', 'San Francisco', '16', '3');
+Insert INTO Athletes (name, team, town, years_played, rings) VALUES ('Peyton Manning', 'Colts', 'Indianapolis', '14', '2');
+Insert INTO Athletes ( name, team, town, years_played, rings) VALUES ( 'Michael Jordan', 'Bulls', 'Chicago', '13', '6');
+Insert INTO Athletes (name, team, town, years_played, rings) VALUES ('Larry Bird', 'Celtics', 'Boston', '13', '3');
+Insert INTO Athletes (name, team, town, years_played, rings) VALUES ('Kobe Bryant', 'Lakers', 'LA', '20', '5');
+Insert INTO Athletes (name, team, town, years_played, rings) VALUES ('Ernie Banks', 'Cubs', 'Chicago', '18', '0');
+Insert INTO Athletes (name, team, town, years_played, rings) VALUES ('Ty Cobb', 'Tigers', 'Detroit', '22', '0');
+Insert INTO Athletes ( name, team, town, years_played, rings) VALUES ('Babe Ruth', 'Yankees', 'New York', '15', '7');
+
+CREATE TABLE sports (id INTEGER PRIMARY KEY, sport TEXT);
+INSERT INTO sports VALUES
+(1, "football"),
+(2, "football"),
+(3, "football"),
+(4, "baseketball"), 
+(5, "baseketball"), 
+(6, "baseketball"),
+(7, "baseball"),
+(8, "baseball"),
+(9, "baseball");
+
+--Join the two tables to see all of the data
+
+SELECT name, team, sport FROM athletes
+JOIN sports ON athletes.id = sports.id;
+
+--Find out which athlete has the most titles and what sport they played
+
+SELECT name, team, sport, rings FROM athletes
+JOIN sports ON athletes.id = sports.id
+WHERE rings >=1 
+ORDER BY rings DESC;
+
+--Find out how many rings were won and how many years were played by each athlete in this list, grouped by sport
+
+SELECT SUM(rings), SUM(years_played), sport FROM athletes
+JOIN sports ON athletes.id = sports.id
+GROUP BY sport
+ORDER BY SUM(rings) DESC;
