@@ -1,0 +1,91 @@
+# For this project, I used Spotify data from Kaggle and a table created by Charlotte Chaze.
+# Finally, I performed analytics on the data using SQL.
+
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness decimal(8,7) NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL );
+
+##First, I look at the data in the dataset
+
+SELECT * FROM BIT_DB.Spotifydata
+
+##1. Which artists have the highest average popularity?
+
+SELECT artist_name, AVG(popularity)
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY AVG(popularity) DESC
+LIMIT 10
+
+##2. Which artist released the longest song?
+
+SELECT artist_name, MAX(duration_ms) AS duration
+FROM BIT_DB.Spotifydata;
+
+##3. How many songs does Olivia Rodrigo have on this list?
+
+SELECT COUNT(artist_name)
+FROM BIT_DB.Spotifydata
+WHERE artist_name = 'Olivia Rodrigo'
+
+##4. Which song had the lowest popularity?
+
+SELECT track_name, artist_name, MIN(popularity)
+FROM BIT_DB.Spotifydata
+
+##5. What was the average tempo of the top 20 songs?
+
+SELECT AVG(tempo)
+FROM BIT_DB.Spotifydata
+WHERE id BETWEEN 1 AND 20
+
+##6. What was the average tempo of an Olivia Rodrigo song?
+
+SELECT AVG(tempo)
+FROM BIT_DB.Spotifydata
+WHERE artist_name = 'Olivia Rodrigo'
+
+##7. What is the average danceability for each artist?
+
+SELECT DISTINCT artist_name, AVG(danceability)
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY AVG(danceability) DESC;
+
+##8. Which 10 songs are the least energetic?
+
+SELECT id, track_name, artist_name, energy
+FROM BIT_DB.spotifydata
+ORDER BY energy asc
+LIMIT 10
+
+##Then I practiced using CTEs
+##Calculate the average popularity for the artists in the Spotify data table.
+##Then, for every artist with an average popularity of 90 or above, show their name, their average popularity, and label them as a “Top Star”.
+
+WITH average_popularity_table AS (
+SELECT artist_name, AVG(popularity) as average_popularity
+FROM Spotifydata
+GROUP BY artist_name
+)
+SELECT artist_name, average_popularity, 'Top Star' AS tag
+FROM average_popularity_table
+WHERE average_popularity >= 90
+ORDER BY average_popularity DESC
+
