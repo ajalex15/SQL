@@ -1,0 +1,41 @@
+# ENTER YOUR CODE HERE
+def minimize_mse(x_list, y_actual_list, m_start, b_start, m_step, b_step, iterations):
+    m = m_start
+    b = b_start
+    y_predicted_list = compute_all_y(x_list, m, b)  # step 1
+    lowest_MSE = compute_mse(y_actual_list, y_predicted_list)      # step 2 and 3
+    
+    for i in range(iterations):     
+        m_larger = m + m_step                                  #4A
+        new_y_predicted_list = compute_all_y(x_list, m_larger, b)
+        mse = compute_mse(y_actual_list, new_y_predicted_list)                 #4C
+        
+        if mse < lowest_MSE:
+            m = m_larger
+            lowest_MSE = mse
+        else:
+            m_smaller = m - m_step                                                    #4E
+            new_y_predicted_list = compute_all_y(x_list, m_smaller, b)
+            mse = compute_mse(y_actual_list, new_y_predicted_list)
+            if mse < lowest_MSE:
+                m = m_smaller
+                lowest_MSE = mse
+        
+        b_larger = b + b_step
+        new_y_predicted_list_2 = compute_all_y(x_list, m, b_larger)
+        new_mse = compute_mse(y_actual_list, new_y_predicted_list_2)
+        
+        if new_mse < lowest_MSE:
+            b = b_larger
+            lowest_MSE = mse
+        else:
+            b_smaller = b - b_step
+            new_y_predicted_list_2 = compute_all_y(x_list, m, b_smaller)
+            new_mse = compute_mse(y_actual_list, new_y_predicted_list_2)
+            
+            if new_mse < lowest_MSE:
+                b = b_smaller
+                lowest_MSE = mse
+        
+    return(m, b)
+            
